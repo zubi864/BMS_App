@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider, MD3LightTheme } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import BleManager from 'react-native-ble-manager';
+
 
 // Screens Import
 import SplashScreen from './screens/SplashScreen';
@@ -42,9 +44,15 @@ export default function App() {
 
   useEffect(() => {
     setTimeout(() => setIsSplash(false), 3500);
+
   }, []);
 
   if (isSplash) return <SplashScreen />;
+  useEffect(() => {
+  BleManager.start({ showAlert: false })
+    .then(() => console.log('✅ BleManager initialized'))
+    .catch((err) => console.log('❌ BleManager start error:', err));
+}, []);
 
   return (
     <SafeAreaProvider>
